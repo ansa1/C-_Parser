@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -8,10 +9,20 @@ import static org.junit.Assert.*;
 public class LexicalAnalyzerTest {
 
     private LexicalAnalyzer lexicalAnalyzer;
+    Constructor<LexicalAnalyzer> lexicalAnalyzerConstructor;
+
+    {
+        try {
+            lexicalAnalyzerConstructor = LexicalAnalyzer.class.getDeclaredConstructor();
+            lexicalAnalyzerConstructor.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
-    public void testCheckOperator1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckOperator1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckOperator", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, ">>=");
@@ -20,8 +31,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckOperator2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckOperator2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckOperator", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, ">>|");
@@ -30,8 +41,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckKeyword1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckKeyword1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckKeyword", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "string");
@@ -40,8 +51,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckKeyword2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckKeyword2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckKeyword", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "String");
@@ -50,8 +61,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckDelimiter1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckDelimiter1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckDelimiter", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "\r\n");
@@ -60,8 +71,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckDelimiter2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckDelimiter2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckDelimiter", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "{");
@@ -70,8 +81,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckDelimiter3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckDelimiter3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckDelimiter", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "{{");
@@ -80,8 +91,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckDelimiter4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckDelimiter4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckDelimiter", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "\n\r");
@@ -90,8 +101,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckComments1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckComments1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckComments", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "/*");
@@ -100,8 +111,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testCheckComments2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testCheckComments2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckComments", String.class);
         method.setAccessible(true);
         boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "///");
@@ -110,8 +121,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
         method.setAccessible(true);
         String actual = (String) method.invoke(lexicalAnalyzer, "PETR_AND_ANSAT_ARE_AWESOME_TEAM");
@@ -120,8 +131,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testParse2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testParse2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
         method.setAccessible(true);
         String actual = (String) method.invoke(lexicalAnalyzer, "241441241");
@@ -130,8 +141,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testParse3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testParse3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
         method.setAccessible(true);
         String actual = (String) method.invoke(lexicalAnalyzer, "using");
@@ -141,8 +152,8 @@ public class LexicalAnalyzerTest {
 
 
     @Test
-    public void testParse4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testParse4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
         method.setAccessible(true);
         String actual = (String) method.invoke(lexicalAnalyzer, "=>");
@@ -151,8 +162,8 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testParse5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        lexicalAnalyzer = new LexicalAnalyzer();
+    public void testParse5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
         method.setAccessible(true);
         String actual = (String) method.invoke(lexicalAnalyzer, ";");

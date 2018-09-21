@@ -4,6 +4,23 @@ import java.util.Arrays;
 
 class LexicalAnalyzer {
 
+    private String item = "";
+
+    private LexicalAnalyzer() {
+    }
+
+    public LexicalAnalyzer(String item) {
+        this.item = item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
     // delimiter class
     private final static String[] delimiter = {";", "{", "}", "\r", "\n", "\r\n"};
 
@@ -53,7 +70,7 @@ class LexicalAnalyzer {
     }
 
     // this method finds next lexical atom
-    public String[] GetNextLexicalAtom(String item) {
+    public String GetNextLexicalAtom(String item) {
         StringBuilder token = new StringBuilder();
 
         // check all element
@@ -66,13 +83,16 @@ class LexicalAnalyzer {
                     token.append(item.substring(i, i + 2));
                     item = item.substring(0, i) + item.substring(i + 2);
 
-                    return new String[]{Parse(token.toString()), item};
+                    setItem(item);
+                    return Parse(token.toString());
                 }
                 // one symbol delimiter
                 else {
                     token.append(Character.toString(item.charAt(i)));
                     item = item = item.substring(0, i) + item.substring(i + 1);
-                    return new String[]{Parse(token.toString()), item};
+
+                    setItem(item);
+                    return Parse(token.toString());
                 }
 
             }
@@ -83,13 +103,17 @@ class LexicalAnalyzer {
                     if (i + 2 < item.length() && CheckOperator(item.substring(i, i + 3))) {
                         token.append(item.substring(i, i + 3));
                         item = item.substring(0, i) + item.substring(i + 3);
-                        return new String[]{Parse(token.toString()), item};
+
+                        setItem(item);
+                        return Parse(token.toString());
                     }
                     // 2 symbol operators
                     else {
                         token.append(item.substring(i, i + 2));
                         item = item.substring(0, i) + item.substring(i + 2);
-                        return new String[]{Parse(token.toString()), item};
+
+                        setItem(item);
+                        return Parse(token.toString());
                     }
                     // if we cannot gather 2 or 3 symbol operators -> check comments
                 else if (CheckComments(item.substring(i, i + 2))) {
@@ -128,7 +152,9 @@ class LexicalAnalyzer {
                     // otherwise this is 1(one) symbol operators
                     token.append(item.charAt(i));
                     item = item.substring(0, i) + item.substring(i + 1);
-                    return new String[]{Parse(token.toString()), item};
+
+                    setItem(item);
+                    return Parse(token.toString());
                 }
             } // if current symbol is ''' ->
             else if (item.charAt(i) == '\'') {
@@ -140,7 +166,9 @@ class LexicalAnalyzer {
 
                 token.append("[Literal constant -> ").append(item.substring(i, j + 1)).append("] ");
                 item = item.substring(0, i) + item.substring(j + 1);
-                return new String[]{token.toString(), item};
+
+                setItem(item);
+                return token.toString();
             }
             // other literal constant
             else if (item.charAt(i) == '"') {
@@ -149,7 +177,9 @@ class LexicalAnalyzer {
                     j++;
                 token.append("[Literal constant -> ").append(item.substring(i, j + 1)).append("] ");
                 item = item.substring(0, i) + item.substring(j + 1);
-                return new String[]{token.toString(), item};
+
+                setItem(item);
+                return token.toString();
             } // if it is delimiter or operator:
             else if (Character.toString(item.charAt(i + 1)).equals(" ") ||
                     CheckDelimiter(Character.toString(item.charAt(i + 1)))
@@ -169,18 +199,24 @@ class LexicalAnalyzer {
                         int x = Integer.parseInt(item.substring(i + 2, j));
                         token.append("[Numerical constant -> \"").append(item.substring(0, j)).append("\"] ");
                         item = item.substring(j);
-                        return new String[]{token.toString(), item};
+
+                        setItem(item);
+                        return token.toString();
                     } catch (NumberFormatException e) {
                     }
                 }
                 token.append(item.substring(0, i + 1));
                 item = item.substring(i + 1);
-                return new String[]{Parse(token.toString()), item};
+
+                setItem(item);
+                return Parse(token.toString());
             }
 
         }
         // of there is no token -> return empty token
-        return new String[]{null, null};
+
+        setItem(null);
+        return null;
     }
 
     private String Parse(String item) {
