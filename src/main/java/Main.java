@@ -17,6 +17,7 @@ public class Main {
         }
         return s;
     }
+
     public static void main(String[] args) throws IOException {
         // ok, let's start
 
@@ -29,17 +30,15 @@ public class Main {
         // removing BOM to correct work with it
         text = removeUTF8BOM(text);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer();
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
         // while we have lexical atoms:
         while (text != null) {
 
             // trim tabulation
             text = StringUtils.strip(text, " \t");
-            String[] res = analyzer.GetNextLexicalAtom(text);
-            text = res[1];
-            if (res[1] != null)
-                out.print(res[0]);
-                //System.out.print(res[0]);
+            String nextToken = analyzer.GetNextLexicalAtom(text);
+            text = analyzer.getItem();
+            if (text != null) out.print(nextToken);
         }
         out.close();
     }
