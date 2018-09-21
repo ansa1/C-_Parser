@@ -286,4 +286,24 @@ public class LexicalAnalyzerTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testGetNextLexicalAtom6() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File("test6.cs");
+        File expectedFile = new File("out6_expected.txt");
+
+        String text = FileUtils.readFileToString(inputFile);
+
+        String actual = "";
+        String expected = FileUtils.readFileToString(expectedFile);
+
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
+        while (text != null) {
+            text = StringUtils.strip(text, " \t");
+            String nextToken = analyzer.GetNextLexicalAtom(text);
+            text = analyzer.getItem();
+            if (text != null) actual += nextToken;
+        }
+        assertEquals(expected, actual);
+    }
+
 }

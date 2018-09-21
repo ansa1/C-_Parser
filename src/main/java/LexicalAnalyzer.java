@@ -122,7 +122,11 @@ class LexicalAnalyzer {
                         do {
                             i++;
                         }
-                        while (item.charAt(i) != '\n');
+                        while (i < item.length() && item.charAt(i) != '\n');
+                        if (i >= item.length()) {
+                            setItem(null);
+                            return null;
+                        }
                         item = item.substring(i + 1);
                         item = StringUtils.strip(item, " \t\r\n");
                         i = -1;
