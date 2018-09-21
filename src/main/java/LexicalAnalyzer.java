@@ -228,7 +228,7 @@ class LexicalAnalyzer {
             int x = Integer.parseInt(item);
 
             // it is numerical constant
-            str.append("[Numerical Constant -> \"" + item + "\"] ");
+            str.append("[Numerical constant -> \"" + item + "\"] ");
             return str.toString();
         } catch (NumberFormatException e) {
         }
