@@ -138,8 +138,8 @@ class LexicalAnalyzer {
                 else
                     j++;
 
-                token.append("[Literal constant -> ").append(item.substring(i, i + j - i + 1)).append("] ");
-                item = item.substring(0, i) + item.substring(i + j - i + 1);
+                token.append("[Literal constant -> ").append(item.substring(i, j + 1)).append("] ");
+                item = item.substring(0, i) + item.substring(j + 1);
                 return new String[]{token.toString(), item};
             }
             // other literal constant
@@ -147,8 +147,8 @@ class LexicalAnalyzer {
                 int j = i + 1;
                 while (item.charAt(j) != '"')
                     j++;
-                token.append("[Literal constant -> ").append(item.substring(i, i + j - i + 1)).append("] ");
-                item = item.substring(0, i) + item.substring(i + j - i + 1);
+                token.append("[Literal constant -> ").append(item.substring(i, j + 1)).append("] ");
+                item = item.substring(0, i) + item.substring(j + 1);
                 return new String[]{token.toString(), item};
             } // if it is delimiter or operator:
             else if (Character.toString(item.charAt(i + 1)).equals(" ") ||
@@ -166,7 +166,7 @@ class LexicalAnalyzer {
 
                     // test that this item substring is corrent integer
                     try {
-                        int x = Integer.parseInt(item.substring(i + 2, i + 2 + j - i - 2));
+                        int x = Integer.parseInt(item.substring(i + 2, j));
                         token.append("[Numerical constant -> \"").append(item.substring(0, j)).append("\"] ");
                         item = item.substring(j);
                         return new String[]{token.toString(), item};
