@@ -90,6 +90,26 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
+    public void testCheckComments1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        lexicalAnalyzer = new LexicalAnalyzer();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckComments", String.class);
+        method.setAccessible(true);
+        boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "/*");
+        boolean expected = true;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCheckComments2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        lexicalAnalyzer = new LexicalAnalyzer();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("CheckComments", String.class);
+        method.setAccessible(true);
+        boolean actual = (Boolean) method.invoke(lexicalAnalyzer, "///");
+        boolean expected = false;
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void testParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         lexicalAnalyzer = new LexicalAnalyzer();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
@@ -98,4 +118,46 @@ public class LexicalAnalyzerTest {
         String expected = "[Identifier -> \"PETR_AND_ANSAT_ARE_AWESOME_TEAM\"] ";
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testParse2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        lexicalAnalyzer = new LexicalAnalyzer();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "241441241");
+        String expected = "[Numerical Constant -> \"" + 241441241 + "\"] ";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testParse3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        lexicalAnalyzer = new LexicalAnalyzer();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "using");
+        String expected = "[Keyword -> \"using\"] ";
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void testParse4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        lexicalAnalyzer = new LexicalAnalyzer();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "=>");
+        String expected = "[Operator -> \"=>\"] ";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testParse5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        lexicalAnalyzer = new LexicalAnalyzer();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, ";");
+        String expected = "[Delimiter -> \";\"] ";
+        assertEquals(expected, actual);
+    }
+
 }
