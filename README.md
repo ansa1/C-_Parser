@@ -34,10 +34,10 @@ Or you can type the following commands by yourself in the project root directory
 <br/>
 `cd target`
 <br/>
-`java -jar ExpressionCalculator-1.0-SNAPSHOT.jar`
+`java -jar CSharpParser-1.0-SNAPSHOT.jar`
 
-After that the calculations results will be written to `./out.txt` 
-line by line based on the provided input expressions in `./in.txt`.  
+After that the lexical analysis results will be written to `out.txt` 
+line by line based on the provided input C Sharp sources in `in.txt`.  
 
 In order to run only the implemented JUnit tests you can simply use:
 
@@ -53,5 +53,3 @@ In order to run only the implemented JUnit tests you can simply use:
 ## Assumptions
 * Code structure keeps in output
 * Lexical analyzer assumes that the given input code is compilable 
-
-
