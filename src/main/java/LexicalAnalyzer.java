@@ -4,12 +4,25 @@ import java.util.Arrays;
 
 class LexicalAnalyzer {
 
+    // constant string to remove BOM from the file
+    public static final String UTF8_BOM = "\uFEFF";
+
+    // removing BOM method
+    private String removeUTF8BOM(String s) {
+        if (s.startsWith(UTF8_BOM)) {
+            s = s.substring(1);
+        }
+        return s;
+    }
+
     private String input = "";
 
     private LexicalAnalyzer() {
     }
 
     public LexicalAnalyzer(String input) {
+        // removing BOM to correct work with it
+        input = removeUTF8BOM(input);
         this.input = input;
     }
 
@@ -71,6 +84,10 @@ class LexicalAnalyzer {
 
     // this method finds next lexical atom
     public String GetNextLexicalAtom(String input) {
+
+        // trim tabulation
+        input = StringUtils.strip(input, " \t");
+
         StringBuilder token = new StringBuilder();
 
         // check all element
@@ -125,7 +142,7 @@ class LexicalAnalyzer {
                         while (i < input.length() && input.charAt(i) != '\n');
                         if (i >= input.length()) {
                             setInput(null);
-                            return null;
+                            return "";
                         }
                         input = input.substring(i + 1);
                         input = StringUtils.strip(input, " \t\r\n");
@@ -220,7 +237,7 @@ class LexicalAnalyzer {
         // of there is no token -> return empty token
 
         setInput(null);
-        return null;
+        return "";
     }
 
     private String Parse(String input) {

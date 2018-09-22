@@ -188,21 +188,71 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
+    public void GetNextLexicalAtom1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("GetNextLexicalAtom", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "typeof(string)");
+        String expected = "[Keyword -> \"typeof\"] ";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void GetNextLexicalAtom2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("GetNextLexicalAtom", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "++a");
+        String expected = "[Operator -> \"++\"] ";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void GetNextLexicalAtom3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("GetNextLexicalAtom", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "while true");
+        String expected = "[Keyword -> \"while\"] ";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void GetNextLexicalAtom4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("GetNextLexicalAtom", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "/*\n" +
+                " * C# Program to Display All the Prime Numbers Between 1 to 100\n" +
+                " */");
+        String expected = "";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void GetNextLexicalAtom5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("GetNextLexicalAtom", String.class);
+        method.setAccessible(true);
+        String actual = (String) method.invoke(lexicalAnalyzer, "[item]");
+        String expected = "[Operator -> \"[\"] ";
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void testFullParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test1.cs");
         File expectedFile = new File(testResourcesDir + "out1_expected.txt");
 
-        String text = FileUtils.readFileToString(inputFile);
+        String input = FileUtils.readFileToString(inputFile);
 
         String actual = "";
         String expected = FileUtils.readFileToString(expectedFile);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
-        while (text != null) {
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getInput();
-            if (text != null) actual += nextToken;
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
+        while ((input = analyzer.getInput()) != null) {
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            actual += nextToken;
         }
         assertEquals(expected, actual);
     }
@@ -212,17 +262,15 @@ public class LexicalAnalyzerTest {
         File inputFile = new File(testResourcesDir + "test2.cs");
         File expectedFile = new File(testResourcesDir + "out2_expected.txt");
 
-        String text = FileUtils.readFileToString(inputFile);
+        String input = FileUtils.readFileToString(inputFile);
 
         String actual = "";
         String expected = FileUtils.readFileToString(expectedFile);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
-        while (text != null) {
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getInput();
-            if (text != null) actual += nextToken;
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
+        while ((input = analyzer.getInput()) != null) {
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            actual += nextToken;
         }
         assertEquals(expected, actual);
     }
@@ -232,17 +280,15 @@ public class LexicalAnalyzerTest {
         File inputFile = new File(testResourcesDir + "test3.cs");
         File expectedFile = new File(testResourcesDir + "out3_expected.txt");
 
-        String text = FileUtils.readFileToString(inputFile);
+        String input = FileUtils.readFileToString(inputFile);
 
         String actual = "";
         String expected = FileUtils.readFileToString(expectedFile);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
-        while (text != null) {
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getInput();
-            if (text != null) actual += nextToken;
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
+        while ((input = analyzer.getInput()) != null) {
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            actual += nextToken;
         }
         assertEquals(expected, actual);
     }
@@ -252,17 +298,15 @@ public class LexicalAnalyzerTest {
         File inputFile = new File(testResourcesDir + "test4.cs");
         File expectedFile = new File(testResourcesDir + "out4_expected.txt");
 
-        String text = FileUtils.readFileToString(inputFile);
+        String input = FileUtils.readFileToString(inputFile);
 
         String actual = "";
         String expected = FileUtils.readFileToString(expectedFile);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
-        while (text != null) {
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getInput();
-            if (text != null) actual += nextToken;
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
+        while ((input = analyzer.getInput()) != null) {
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            actual += nextToken;
         }
         assertEquals(expected, actual);
     }
@@ -272,17 +316,15 @@ public class LexicalAnalyzerTest {
         File inputFile = new File(testResourcesDir + "test5.cs");
         File expectedFile = new File(testResourcesDir + "out5_expected.txt");
 
-        String text = FileUtils.readFileToString(inputFile);
+        String input = FileUtils.readFileToString(inputFile);
 
         String actual = "";
         String expected = FileUtils.readFileToString(expectedFile);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
-        while (text != null) {
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getInput();
-            if (text != null) actual += nextToken;
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
+        while ((input = analyzer.getInput()) != null) {
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            actual += nextToken;
         }
         assertEquals(expected, actual);
     }
@@ -292,19 +334,16 @@ public class LexicalAnalyzerTest {
         File inputFile = new File(testResourcesDir + "test6.cs");
         File expectedFile = new File(testResourcesDir + "out6_expected.txt");
 
-        String text = FileUtils.readFileToString(inputFile);
+        String input = FileUtils.readFileToString(inputFile);
 
         String actual = "";
         String expected = FileUtils.readFileToString(expectedFile);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
-        while (text != null) {
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getInput();
-            if (text != null) actual += nextToken;
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
+        while ((input = analyzer.getInput()) != null) {
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            actual += nextToken;
         }
         assertEquals(expected, actual);
     }
-
 }
