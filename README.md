@@ -36,8 +36,8 @@ Or you can type the following commands by yourself in the project root directory
 <br/>
 `java -jar ExpressionCalculator-1.0-SNAPSHOT.jar`
 
-After that the calculations results will be written to `./data/out.txt` 
-line by line based on the provided input expressions in `./data/in.txt`.  
+After that the calculations results will be written to `./out.txt` 
+line by line based on the provided input expressions in `./in.txt`.  
 
 In order to run only the implemented JUnit tests you can simply use:
 

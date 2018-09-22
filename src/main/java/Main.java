@@ -10,8 +10,8 @@ public class Main {
         // ok, let's start
 
         // use same input and output file names as previous homework
-        File file = new File("in.txt");
-        PrintWriter out = new PrintWriter(new File("out.txt"));
+        File file = new File("../in.txt");
+        PrintWriter out = new PrintWriter(new File("../out.txt"));
 
         // read all file
         String input = FileUtils.readFileToString(file);

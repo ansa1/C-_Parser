@@ -1,0 +1,1 @@
+[Keyword -> "int"] [Identifier -> "a"] [Operator -> "="] [Numerical constant -> "2"] [Delimiter -> ";"] 
