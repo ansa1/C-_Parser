@@ -23,6 +23,8 @@ class LexicalAnalyzer {
     public LexicalAnalyzer(String input) {
         // removing BOM to correct work with it
         input = removeUTF8BOM(input);
+        // to support different line separator types
+        input = input.replaceAll("\r", "").replaceAll("\n","\r\n");
         this.input = input;
     }
 
