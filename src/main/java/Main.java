@@ -26,19 +26,19 @@ public class Main {
         PrintWriter out = new PrintWriter(new File("out.txt"));
 
         // read all file
-        String text = FileUtils.readFileToString(file);
+        String input = FileUtils.readFileToString(file);
         // removing BOM to correct work with it
-        text = removeUTF8BOM(text);
+        input = removeUTF8BOM(input);
 
-        LexicalAnalyzer analyzer = new LexicalAnalyzer(text);
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(input);
         // while we have lexical atoms:
-        while (text != null) {
+        while (input != null) {
 
             // trim tabulation
-            text = StringUtils.strip(text, " \t");
-            String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
-            if (text != null) out.print(nextToken);
+            input = StringUtils.strip(input, " \t");
+            String nextToken = analyzer.GetNextLexicalAtom(input);
+            input = analyzer.getInput();
+            if (input != null) out.print(nextToken);
         }
         out.close();
     }

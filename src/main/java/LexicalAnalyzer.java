@@ -4,21 +4,21 @@ import java.util.Arrays;
 
 class LexicalAnalyzer {
 
-    private String item = "";
+    private String input = "";
 
     private LexicalAnalyzer() {
     }
 
-    public LexicalAnalyzer(String item) {
-        this.item = item;
+    public LexicalAnalyzer(String input) {
+        this.input = input;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setInput(String input) {
+        this.input = input;
     }
 
-    public String getItem() {
-        return item;
+    public String getInput() {
+        return input;
     }
 
     // delimiter class
@@ -70,65 +70,65 @@ class LexicalAnalyzer {
     }
 
     // this method finds next lexical atom
-    public String GetNextLexicalAtom(String item) {
+    public String GetNextLexicalAtom(String input) {
         StringBuilder token = new StringBuilder();
 
         // check all element
-        for (int i = 0; i < item.length(); i++) {
+        for (int i = 0; i < input.length(); i++) {
 
             // if it is delimiter:
-            if (CheckDelimiter(Character.toString(item.charAt(i)))) {
+            if (CheckDelimiter(Character.toString(input.charAt(i)))) {
                 // two symbols delimiter
-                if (i + 1 < item.length() && CheckDelimiter(StringUtils.substring(item, i, i + 2))) {
-                    token.append(item.substring(i, i + 2));
-                    item = item.substring(0, i) + item.substring(i + 2);
+                if (i + 1 < input.length() && CheckDelimiter(StringUtils.substring(input, i, i + 2))) {
+                    token.append(input.substring(i, i + 2));
+                    input = input.substring(0, i) + input.substring(i + 2);
 
-                    setItem(item);
+                    setInput(input);
                     return Parse(token.toString());
                 }
                 // one symbol delimiter
                 else {
-                    token.append(Character.toString(item.charAt(i)));
-                    item = item = item.substring(0, i) + item.substring(i + 1);
+                    token.append(Character.toString(input.charAt(i)));
+                    input = input = input.substring(0, i) + input.substring(i + 1);
 
-                    setItem(item);
+                    setInput(input);
                     return Parse(token.toString());
                 }
 
             }
             // check if it is an operator
-            else if (CheckOperator(Character.toString(item.charAt(i)))) {
-                if (i + 1 < item.length() && (CheckOperator(item.substring(i, i + 2))))
+            else if (CheckOperator(Character.toString(input.charAt(i)))) {
+                if (i + 1 < input.length() && (CheckOperator(input.substring(i, i + 2))))
                     // 3 symbol operators
-                    if (i + 2 < item.length() && CheckOperator(item.substring(i, i + 3))) {
-                        token.append(item.substring(i, i + 3));
-                        item = item.substring(0, i) + item.substring(i + 3);
+                    if (i + 2 < input.length() && CheckOperator(input.substring(i, i + 3))) {
+                        token.append(input.substring(i, i + 3));
+                        input = input.substring(0, i) + input.substring(i + 3);
 
-                        setItem(item);
+                        setInput(input);
                         return Parse(token.toString());
                     }
                     // 2 symbol operators
                     else {
-                        token.append(item.substring(i, i + 2));
-                        item = item.substring(0, i) + item.substring(i + 2);
+                        token.append(input.substring(i, i + 2));
+                        input = input.substring(0, i) + input.substring(i + 2);
 
-                        setItem(item);
+                        setInput(input);
                         return Parse(token.toString());
                     }
                     // if we cannot gather 2 or 3 symbol operators -> check comments
-                else if (CheckComments(item.substring(i, i + 2))) {
+                else if (CheckComments(input.substring(i, i + 2))) {
                     // one line comments
-                    if (item.substring(i, i + 2).equals("//")) {
+                    if (input.substring(i, i + 2).equals("//")) {
                         do {
                             i++;
                         }
-                        while (i < item.length() && item.charAt(i) != '\n');
-                        if (i >= item.length()) {
-                            setItem(null);
+                        while (i < input.length() && input.charAt(i) != '\n');
+                        if (i >= input.length()) {
+                            setInput(null);
                             return null;
                         }
-                        item = item.substring(i + 1);
-                        item = StringUtils.strip(item, " \t\r\n");
+                        input = input.substring(i + 1);
+                        input = StringUtils.strip(input, " \t\r\n");
                         i = -1;
                     }
                     // otherwise multiline comments
@@ -136,9 +136,9 @@ class LexicalAnalyzer {
                         // find last element and ignore all
                         do {
                             i++;
-                        } while (item.substring(i, i + 2).equals("*/") == false);
-                        item = item.substring(i + 2);
-                        item = StringUtils.strip(item, " \t\r\n");
+                        } while (input.substring(i, i + 2).equals("*/") == false);
+                        input = input.substring(i + 2);
+                        input = StringUtils.strip(input, " \t\r\n");
                         i = -1;
                     }
 
@@ -146,122 +146,122 @@ class LexicalAnalyzer {
 
                     // check negative number
                     try {
-                        if (item.charAt(i) == '-') {
-                            int x = Integer.parseInt(Character.toString(item.charAt(i + 1)));
+                        if (input.charAt(i) == '-') {
+                            int x = Integer.parseInt(Character.toString(input.charAt(i + 1)));
                             continue;
                         }
                     } catch (NumberFormatException e) {
                     }
 
                     // otherwise this is 1(one) symbol operators
-                    token.append(item.charAt(i));
-                    item = item.substring(0, i) + item.substring(i + 1);
+                    token.append(input.charAt(i));
+                    input = input.substring(0, i) + input.substring(i + 1);
 
-                    setItem(item);
+                    setInput(input);
                     return Parse(token.toString());
                 }
             } // if current symbol is ''' ->
-            else if (item.charAt(i) == '\'') {
+            else if (input.charAt(i) == '\'') {
                 int j = i + 1;
-                if (item.charAt(j) == '\\')
+                if (input.charAt(j) == '\\')
                     j += 2;
                 else
                     j++;
 
-                token.append("[Literal constant -> ").append(item.substring(i, j + 1)).append("] ");
-                item = item.substring(0, i) + item.substring(j + 1);
+                token.append("[Literal constant -> ").append(input.substring(i, j + 1)).append("] ");
+                input = input.substring(0, i) + input.substring(j + 1);
 
-                setItem(item);
+                setInput(input);
                 return token.toString();
             }
             // other literal constant
-            else if (item.charAt(i) == '"') {
+            else if (input.charAt(i) == '"') {
                 int j = i + 1;
-                while (item.charAt(j) != '"')
+                while (input.charAt(j) != '"')
                     j++;
-                token.append("[Literal constant -> ").append(item.substring(i, j + 1)).append("] ");
-                item = item.substring(0, i) + item.substring(j + 1);
+                token.append("[Literal constant -> ").append(input.substring(i, j + 1)).append("] ");
+                input = input.substring(0, i) + input.substring(j + 1);
 
-                setItem(item);
+                setInput(input);
                 return token.toString();
             } // if it is delimiter or operator:
-            else if (Character.toString(item.charAt(i + 1)).equals(" ") ||
-                    CheckDelimiter(Character.toString(item.charAt(i + 1)))
-                    || CheckOperator(Character.toString(item.charAt(i + 1)))) {
+            else if (Character.toString(input.charAt(i + 1)).equals(" ") ||
+                    CheckDelimiter(Character.toString(input.charAt(i + 1)))
+                    || CheckOperator(Character.toString(input.charAt(i + 1)))) {
                 // try to find numerical constant
-                if (Parse(item.substring(0, i + 1)).contains("Numerical constant") && item.charAt(i + 1) == '.') {
+                if (Parse(input.substring(0, i + 1)).contains("Numerical constant") && input.charAt(i + 1) == '.') {
                     int j = i + 2;
 
                     // find right bound
-                    while (!(Character.toString(item.charAt(j)).equals(" ")) &&
-                            !CheckDelimiter(Character.toString(item.charAt(j))) &&
-                            !CheckOperator(Character.toString(item.charAt(j))))
+                    while (!(Character.toString(input.charAt(j)).equals(" ")) &&
+                            !CheckDelimiter(Character.toString(input.charAt(j))) &&
+                            !CheckOperator(Character.toString(input.charAt(j))))
                         j++;
 
-                    // test that this item substring is corrent integer
+                    // test that this input substring is corrent integer
                     try {
-                        int x = Integer.parseInt(item.substring(i + 2, j));
-                        token.append("[Numerical constant -> \"").append(item.substring(0, j)).append("\"] ");
-                        item = item.substring(j);
+                        int x = Integer.parseInt(input.substring(i + 2, j));
+                        token.append("[Numerical constant -> \"").append(input.substring(0, j)).append("\"] ");
+                        input = input.substring(j);
 
-                        setItem(item);
+                        setInput(input);
                         return token.toString();
                     } catch (NumberFormatException e) {
                     }
                 }
-                token.append(item.substring(0, i + 1));
-                item = item.substring(i + 1);
+                token.append(input.substring(0, i + 1));
+                input = input.substring(i + 1);
 
-                setItem(item);
+                setInput(input);
                 return Parse(token.toString());
             }
 
         }
         // of there is no token -> return empty token
 
-        setItem(null);
+        setInput(null);
         return null;
     }
 
-    private String Parse(String item) {
+    private String Parse(String input) {
 
         StringBuilder str = new StringBuilder();
 
         // if it is an integer:
         try {
-            int x = Integer.parseInt(item);
+            int x = Integer.parseInt(input);
 
             // it is numerical constant
-            str.append("[Numerical constant -> \"" + item + "\"] ");
+            str.append("[Numerical constant -> \"" + input + "\"] ");
             return str.toString();
         } catch (NumberFormatException e) {
         }
 
         // new line
-        if (item.equals("\r\n")) {
+        if (input.equals("\r\n")) {
             return "\r\n";
         }
 
         // if it is a keyword:
-        if (CheckKeyword(item)) {
-            str.append("[Keyword -> \"" + item + "\"] ");
+        if (CheckKeyword(input)) {
+            str.append("[Keyword -> \"" + input + "\"] ");
             return str.toString();
         }
 
         // if it is an operator:
-        if (CheckOperator(item)) {
-            str.append("[Operator -> \"" + item + "\"] ");
+        if (CheckOperator(input)) {
+            str.append("[Operator -> \"" + input + "\"] ");
             return str.toString();
         }
 
         // if it is a delimiter
-        if (CheckDelimiter(item)) {
-            str.append("[Delimiter -> \"" + item + "\"] ");
+        if (CheckDelimiter(input)) {
+            str.append("[Delimiter -> \"" + input + "\"] ");
             return str.toString();
         }
 
         // else it is identifer
-        str.append("[Identifier -> \"" + item + "\"] ");
+        str.append("[Identifier -> \"" + input + "\"] ");
         return str.toString();
     }
 }

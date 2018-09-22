@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,6 +11,8 @@ import java.lang.reflect.Method;
 import static org.junit.Assert.*;
 
 public class LexicalAnalyzerTest {
+
+    private static final String testResourcesDir = "./src/test/resources/";
 
     private LexicalAnalyzer lexicalAnalyzer;
     Constructor<LexicalAnalyzer> lexicalAnalyzerConstructor;
@@ -187,9 +188,9 @@ public class LexicalAnalyzerTest {
     }
 
     @Test
-    public void testGetNextLexicalAtom1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
-        File inputFile = new File("test1.cs");
-        File expectedFile = new File("out1_expected.txt");
+    public void testFullParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File(testResourcesDir + "test1.cs");
+        File expectedFile = new File(testResourcesDir + "out1_expected.txt");
 
         String text = FileUtils.readFileToString(inputFile);
 
@@ -200,16 +201,16 @@ public class LexicalAnalyzerTest {
         while (text != null) {
             text = StringUtils.strip(text, " \t");
             String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
+            text = analyzer.getInput();
             if (text != null) actual += nextToken;
         }
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetNextLexicalAtom2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
-        File inputFile = new File("test2.cs");
-        File expectedFile = new File("out2_expected.txt");
+    public void testFullParse2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File(testResourcesDir + "test2.cs");
+        File expectedFile = new File(testResourcesDir + "out2_expected.txt");
 
         String text = FileUtils.readFileToString(inputFile);
 
@@ -220,16 +221,16 @@ public class LexicalAnalyzerTest {
         while (text != null) {
             text = StringUtils.strip(text, " \t");
             String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
+            text = analyzer.getInput();
             if (text != null) actual += nextToken;
         }
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetNextLexicalAtom3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
-        File inputFile = new File("test3.cs");
-        File expectedFile = new File("out3_expected.txt");
+    public void testFullParse3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File(testResourcesDir + "test3.cs");
+        File expectedFile = new File(testResourcesDir + "out3_expected.txt");
 
         String text = FileUtils.readFileToString(inputFile);
 
@@ -240,16 +241,16 @@ public class LexicalAnalyzerTest {
         while (text != null) {
             text = StringUtils.strip(text, " \t");
             String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
+            text = analyzer.getInput();
             if (text != null) actual += nextToken;
         }
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetNextLexicalAtom4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
-        File inputFile = new File("test4.cs");
-        File expectedFile = new File("out4_expected.txt");
+    public void testFullParse4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File(testResourcesDir + "test4.cs");
+        File expectedFile = new File(testResourcesDir + "out4_expected.txt");
 
         String text = FileUtils.readFileToString(inputFile);
 
@@ -260,16 +261,16 @@ public class LexicalAnalyzerTest {
         while (text != null) {
             text = StringUtils.strip(text, " \t");
             String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
+            text = analyzer.getInput();
             if (text != null) actual += nextToken;
         }
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetNextLexicalAtom5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
-        File inputFile = new File("test5.cs");
-        File expectedFile = new File("out5_expected.txt");
+    public void testFullParse5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File(testResourcesDir + "test5.cs");
+        File expectedFile = new File(testResourcesDir + "out5_expected.txt");
 
         String text = FileUtils.readFileToString(inputFile);
 
@@ -280,16 +281,16 @@ public class LexicalAnalyzerTest {
         while (text != null) {
             text = StringUtils.strip(text, " \t");
             String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
+            text = analyzer.getInput();
             if (text != null) actual += nextToken;
         }
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testGetNextLexicalAtom6() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
-        File inputFile = new File("test6.cs");
-        File expectedFile = new File("out6_expected.txt");
+    public void testFullParse6() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+        File inputFile = new File(testResourcesDir + "test6.cs");
+        File expectedFile = new File(testResourcesDir + "out6_expected.txt");
 
         String text = FileUtils.readFileToString(inputFile);
 
@@ -300,7 +301,7 @@ public class LexicalAnalyzerTest {
         while (text != null) {
             text = StringUtils.strip(text, " \t");
             String nextToken = analyzer.GetNextLexicalAtom(text);
-            text = analyzer.getItem();
+            text = analyzer.getInput();
             if (text != null) actual += nextToken;
         }
         assertEquals(expected, actual);
