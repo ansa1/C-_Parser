@@ -257,7 +257,7 @@ public class LexicalAnalyzerTest {
     @Test
     public void testFullParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test1.cs");
-        File expectedFile = new File(testResourcesDir + "out1_expected.cs");
+        File expectedFile = new File(testResourcesDir + "out1_expected.txt");
 
         String input = FileUtils.readFileToString(inputFile);
 
@@ -275,7 +275,7 @@ public class LexicalAnalyzerTest {
     @Test
     public void testFullParse2() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test2.cs");
-        File expectedFile = new File(testResourcesDir + "out2_expected.cs");
+        File expectedFile = new File(testResourcesDir + "out2_expected.txt");
 
         String input = FileUtils.readFileToString(inputFile);
 
@@ -293,7 +293,7 @@ public class LexicalAnalyzerTest {
     @Test
     public void testFullParse3() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test3.cs");
-        File expectedFile = new File(testResourcesDir + "out3_expected.cs");
+        File expectedFile = new File(testResourcesDir + "out3_expected.txt");
 
         String input = FileUtils.readFileToString(inputFile);
 
@@ -311,7 +311,7 @@ public class LexicalAnalyzerTest {
     @Test
     public void testFullParse4() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test4.cs");
-        File expectedFile = new File(testResourcesDir + "out4_expected.cs");
+        File expectedFile = new File(testResourcesDir + "out4_expected.txt");
 
         String input = FileUtils.readFileToString(inputFile);
 
@@ -329,7 +329,7 @@ public class LexicalAnalyzerTest {
     @Test
     public void testFullParse5() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test5.cs");
-        File expectedFile = new File(testResourcesDir + "out5_expected.cs");
+        File expectedFile = new File(testResourcesDir + "out5_expected.txt");
 
         String input = FileUtils.readFileToString(inputFile);
 
@@ -347,7 +347,7 @@ public class LexicalAnalyzerTest {
     @Test
     public void testFullParse6() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test6.cs");
-        File expectedFile = new File(testResourcesDir + "out6_expected.cs");
+        File expectedFile = new File(testResourcesDir + "out6_expected.txt");
 
         String input = FileUtils.readFileToString(inputFile);
 

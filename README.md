@@ -46,10 +46,16 @@ In order to run only the implemented JUnit tests you can simply use:
 
 ## Bonus
 
-* Program finds comments(all, including one line and multiline) and ingore all information between them.
+* Program finds comments(all, including one line and multiline) and ignore all information between them.
 * Program can work with BOM(Byte Order Mark) files. (we lost too much time to find mistake that this is file with BOM!!!)
 * Beautiful and easy to understand output
 
 ## Assumptions
-* Code structure keeps in output
-* Lexical analyzer assumes that the given input code is compilable 
+* We maintain the input code structure in a sense, that blank new lines in sources will remain in the output.
+* The Lexical Analyzer expect the given input code to be compilable. 
+* The program is intended to be platform independent and support all types of line 
+separators: "\r\n" for Windows, "\n" for Linux and MacOS X, "\r" for MacOS 9 and older.
+However, the use of the last one is error prone and should be avoided, so we hope you will 
+choose EOL character among the first two to work with our Lexical Analyzer. Besides, in case
+of automatic testing, the same types of line delimiters are supposed to bee used in the input 
+files and the files containing the expected results. 
