@@ -3,7 +3,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -243,7 +242,6 @@ public class LexicalAnalyzerTest {
     public void testFullParse1() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         File inputFile = new File(testResourcesDir + "test1.cs");
         File expectedFile = new File(testResourcesDir + "out1_expected.cs");
-        PrintWriter out = new PrintWriter(new File("out2.txt"));
 
         String input = FileUtils.readFileToString(inputFile);
 
@@ -254,9 +252,7 @@ public class LexicalAnalyzerTest {
         while ((input = analyzer.getInput()) != null) {
             String nextToken = analyzer.GetNextLexicalAtom(input);
             actual += nextToken;
-            out.write(nextToken);
         }
-        out.close();
         assertEquals(expected, actual);
     }
 
