@@ -7,6 +7,12 @@ class LexicalAnalyzer {
     // constant string to remove BOM from the file
     public static final String UTF8_BOM = "\uFEFF";
 
+    public static final String WINDOWS_LINE_SEPARATOR = "\r\n";
+    public static final String MODERN_UNIX_LINE_SEPARATOR = "\n";
+
+    // using this type of line delimiter is deprecated and should be avoided
+    public static final String OLD_UNIX_LINE_SEPARATOR = "\r";
+
     // removing BOM method
     private String removeUTF8BOM(String s) {
         if (s.startsWith(UTF8_BOM)) {
@@ -15,7 +21,21 @@ class LexicalAnalyzer {
         return s;
     }
 
+    private void setInputLineSeparator(String input) {
+        if (input.contains(WINDOWS_LINE_SEPARATOR)) {
+            // Windows case
+            inputLineSeparator = WINDOWS_LINE_SEPARATOR;
+        } else if (input.contains(MODERN_UNIX_LINE_SEPARATOR)) {
+            // Modern UNIX case
+            inputLineSeparator = MODERN_UNIX_LINE_SEPARATOR;
+        } else {
+            // Old UNIX case (deprecated)
+            inputLineSeparator = OLD_UNIX_LINE_SEPARATOR;
+        }
+    }
+
     private String input = "";
+    private String inputLineSeparator = "";
 
     private LexicalAnalyzer() {
     }
@@ -23,8 +43,8 @@ class LexicalAnalyzer {
     public LexicalAnalyzer(String input) {
         // removing BOM to correct work with it
         input = removeUTF8BOM(input);
-        // to support different line separator types
-        input = input.replaceAll("\r", "").replaceAll("\n","\r\n");
+        // supporting different line separator types
+        setInputLineSeparator(input);
         this.input = input;
     }
 
@@ -257,8 +277,8 @@ class LexicalAnalyzer {
         }
 
         // new line
-        if (input.equals("\r\n")) {
-            return "\r\n";
+        if (input.equals(inputLineSeparator)) {
+            return inputLineSeparator;
         }
 
         // if it is a keyword:

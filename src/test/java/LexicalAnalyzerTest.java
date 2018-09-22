@@ -181,8 +181,24 @@ public class LexicalAnalyzerTest {
         lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
         Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
         method.setAccessible(true);
+        Method method2 = lexicalAnalyzer.getClass().getDeclaredMethod("setInputLineSeparator", String.class);
+        method2.setAccessible(true);
+        method2.invoke(lexicalAnalyzer, "\r\n");
         String actual = (String) method.invoke(lexicalAnalyzer, "\r\n");
         String expected = "\r\n";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testParse7() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        lexicalAnalyzer = lexicalAnalyzerConstructor.newInstance();
+        Method method = lexicalAnalyzer.getClass().getDeclaredMethod("Parse", String.class);
+        method.setAccessible(true);
+        Method method2 = lexicalAnalyzer.getClass().getDeclaredMethod("setInputLineSeparator", String.class);
+        method2.setAccessible(true);
+        method2.invoke(lexicalAnalyzer, "\n");
+        String actual = (String) method.invoke(lexicalAnalyzer, "\n");
+        String expected = "\n";
         assertEquals(expected, actual);
     }
 
