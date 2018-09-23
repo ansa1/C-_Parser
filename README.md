@@ -1,6 +1,6 @@
 # Lexical analyzer
 
-Takes source code from the input, and produces the token which can be divided to the next 6 groups:
+Takes source code from the input, and produces the token which can be divided to the next 7 groups:
 
 1. Keywords
 2. Identifiers
@@ -8,7 +8,24 @@ Takes source code from the input, and produces the token which can be divided to
 4. Operators
 5. Delimiters
 6. Literals
+7. Numerical constants
 
+## Output format specification
+
+The 7 groups listed above are transformed to the output as follows:
+
+1. "[Keyword -> "using"] "
+2. "[Identifier -> "input"] "
+3. Comments are omitted
+4. "[Operator -> "=>"] "
+5. "[Delimiter -> ";"] "
+6. "[Literal constant -> "PETR_AND_ANSAT_ARE_AWESOME_TEAM"] "
+7. "[Numerical constant -> "241441241"] "
+
+P.S. Each info message is followed by a single space for clear representation
+(in case you did not notice)
+
+For more examples you case see samples in `src/test/resources`
 
 ## Dependencies
 

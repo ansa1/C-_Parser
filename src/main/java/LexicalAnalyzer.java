@@ -4,45 +4,19 @@ import java.util.Arrays;
 
 class LexicalAnalyzer {
 
-    // constant string to remove BOM from the file
-    public static final String UTF8_BOM = "\uFEFF";
-
-    public static final String WINDOWS_LINE_SEPARATOR = "\r\n";
-    public static final String MODERN_UNIX_LINE_SEPARATOR = "\n";
-
-    // using this type of line delimiter is deprecated and should be avoided
-    public static final String OLD_UNIX_LINE_SEPARATOR = "\r";
-
-    // removing BOM method
-    private String removeUTF8BOM(String s) {
-        if (s.startsWith(UTF8_BOM)) {
-            s = s.substring(1);
-        }
-        return s;
-    }
-
-    private void setInputLineSeparator(String input) {
-        if (input.contains(WINDOWS_LINE_SEPARATOR)) {
-            // Windows case
-            inputLineSeparator = WINDOWS_LINE_SEPARATOR;
-        } else if (input.contains(MODERN_UNIX_LINE_SEPARATOR)) {
-            // Modern UNIX case
-            inputLineSeparator = MODERN_UNIX_LINE_SEPARATOR;
-        } else {
-            // Old UNIX case (deprecated)
-            inputLineSeparator = OLD_UNIX_LINE_SEPARATOR;
-        }
-    }
-
     private String input = "";
     private String inputLineSeparator = "";
+
+    private void setInputLineSeparator(String input) {
+        inputLineSeparator = Utils.getInputLineSeparator(input);
+    }
 
     private LexicalAnalyzer() {
     }
 
     public LexicalAnalyzer(String input) {
         // removing BOM to correct work with it
-        input = removeUTF8BOM(input);
+        input = Utils.removeUTF8BOM(input);
         // supporting different line separator types
         setInputLineSeparator(input);
         this.input = input;
@@ -184,12 +158,10 @@ class LexicalAnalyzer {
                 } else {
 
                     // check negative number
-                    try {
-                        if (input.charAt(i) == '-') {
-                            int x = Integer.parseInt(Character.toString(input.charAt(i + 1)));
+                    if (input.charAt(i) == '-') {
+                        if (Utils.isInteger(Character.toString(input.charAt(i + 1)))) {
                             continue;
                         }
-                    } catch (NumberFormatException e) {
                     }
 
                     // otherwise this is 1(one) symbol operators
@@ -237,15 +209,13 @@ class LexicalAnalyzer {
                             !CheckOperator(Character.toString(input.charAt(j))))
                         j++;
 
-                    // test that this input substring is corrent integer
-                    try {
-                        int x = Integer.parseInt(input.substring(i + 2, j));
+                    // test that this input substring is correct integer
+                    if (Utils.isInteger(input.substring(i + 2, j))) {
                         token.append("[Numerical constant -> \"").append(input.substring(0, j)).append("\"] ");
                         input = input.substring(j);
 
                         setInput(input);
                         return token.toString();
-                    } catch (NumberFormatException e) {
                     }
                 }
                 token.append(input.substring(0, i + 1));
@@ -267,13 +237,10 @@ class LexicalAnalyzer {
         StringBuilder str = new StringBuilder();
 
         // if it is an integer:
-        try {
-            int x = Integer.parseInt(input);
-
+        if (Utils.isInteger(input)) {
             // it is numerical constant
             str.append("[Numerical constant -> \"" + input + "\"] ");
             return str.toString();
-        } catch (NumberFormatException e) {
         }
 
         // new line
